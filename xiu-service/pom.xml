@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xiu-service</artifactId>
+    <packaging>jar</packaging>
 
     <parent>
         <artifactId>xiu</artifactId>
@@ -23,21 +24,29 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!-- SpringBoot启动类及RESTFUL API用到的WEB注解类 -->
+        <!-- fastJson -->
         <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <!-- SpringBoot启动类及RESTFUL API用到的WEB注解类 -->
+        <!-- xiu-framework中已引入 -->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- 自动生成GET,SET等方法 -->
-        <dependency>
+        <!-- xiu-framework中已引入 -->
+        <!--<dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- 自动生成接口文档 -->
-        <dependency>
+        <!-- xiu-framework中已引入 -->
+        <!--<dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- 自动生成测试网页 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

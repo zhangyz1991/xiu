@@ -8,8 +8,10 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.UiConfiguration;
+import springfox.documentation.swagger.web.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
 
 @EnableSwagger2
 @Configuration
@@ -24,25 +26,40 @@ public class Swagger2Configuration {
                 .apis(RequestHandlerSelectors.basePackage("com.vick"))
                 .paths(PathSelectors.any())
                 .build();
-                //.ignoredParameterTypes(CompanySysUserModel.class)
-                //.ignoredParameterTypes(MobileUserModel.class);
+        //.ignoredParameterTypes(CompanySysUserModel.class)
+        //.ignoredParameterTypes(MobileUserModel.class);
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("xiu api",
+        return new ApiInfo(
+                "XIU API",
+                "xiu academic record management system",
+                "0.0.1",
+                null,
+                ApiInfo.DEFAULT_CONTACT,
                 null,
                 null,
-                null,
-                null,
-                null,
-                null
+                new ArrayList()
         );
+
     }
 
     @Bean
     UiConfiguration uiConfig() {
-        return new UiConfiguration(null, "list", "alpha", "schema",
-                UiConfiguration.Constants.DEFAULT_SUBMIT_METHODS, false, true, 60000L);
+        return new UiConfiguration(
+                true,
+                false,
+                1,
+                1,
+                ModelRendering.MODEL,
+                false,
+                DocExpansion.LIST,
+                null,
+                null,
+                OperationsSorter.ALPHA,
+                false,
+                TagsSorter.ALPHA,
+                null);
     }
 
 }

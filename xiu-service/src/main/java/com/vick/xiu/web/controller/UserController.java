@@ -1,6 +1,10 @@
 package com.vick.xiu.web.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.fasterxml.jackson.databind.util.JSONWrappedObject;
+import com.vick.framework.result.ResultModel;
 import com.vick.xiu.entity.User;
 import com.vick.xiu.service.IUserService;
 import io.swagger.annotations.Api;
@@ -15,7 +19,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author zyz
@@ -32,7 +36,11 @@ public class UserController {
     @GetMapping(value = "list")
     @ApiOperation(value = "学生列表", notes = "学生列表")
     @ApiImplicitParams({})
-    public List<User> list(){
-        return iUserService.list();
+    public String list() {
+        List<User> list = iUserService.list();
+        JSONObject json = new JSONObject();
+        json.put("list", list);
+        json.put("pageTotal", list.size());
+        return json.toJSONString();
     }
 }

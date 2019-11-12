@@ -1,6 +1,8 @@
 server:
   port: 3000
-
+logging:
+  level:
+    root: DEBUG
 spring:
   application:
     name: xiu
