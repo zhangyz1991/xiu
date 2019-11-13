@@ -1,8 +1,14 @@
 server:
   port: 3000
+  tomcat:
+    basedir: /opt/services/xiu/xiu-service
 logging:
+  file:
+    path: logs/xiu-service
   level:
     root: DEBUG
+    #swagger日志级别
+    io.swagger.models.parameters.AbstractSerializableParameter: error
 spring:
   application:
     name: xiu
