@@ -3,15 +3,18 @@ server:
   tomcat:
     basedir: /opt/services/xiu/xiu-service
 logging:
-  file:
-    path: logs/xiu-service
+  #logback-spring.xml会覆盖logging.file.path
+  #file:
+    #path: logs/xiu-service
   level:
-    root: DEBUG
+    #root: INFO
+    #org.springframework: INFO
     #swagger日志级别
-    io.swagger.models.parameters.AbstractSerializableParameter: error
+    io.swagger.models.parameters.AbstractSerializableParameter: ERROR
+  #config: classpath:logback-spring.xml
 spring:
   application:
-    name: xiu
+    name: xiu-service
   #数据源配置信息
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
