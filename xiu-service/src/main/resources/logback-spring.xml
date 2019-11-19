@@ -25,7 +25,7 @@
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
+            <level>INFO</level>
         </filter>
         <!--定义日志输出的路径-->
         <file>${server.tomcat.basedir}/logs/${app.name}.log</file>

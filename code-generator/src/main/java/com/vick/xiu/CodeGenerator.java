@@ -72,7 +72,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(URL + scanner("数据库名") + "?characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8");
+        dsc.setUrl(URL + scanner("数据库名") + "?characterEncoding=UTF8mb4&useSSL=false&serverTimezone=GMT%2B8");
         // dsc.setSchemaName("public");
         dsc.setDriverName(DRIVER_NAME);
         dsc.setUsername(USERNAME);
