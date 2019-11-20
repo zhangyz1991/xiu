@@ -18,7 +18,7 @@ public class ResultModel<T> implements Serializable {
     /**
      * 响应码
      */
-    private int code;
+    private Integer code;
 
     /**
      * 响应消息
