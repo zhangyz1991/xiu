@@ -1,10 +1,20 @@
 package com.vick.xiu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.vick.framework.page.Page;
+import com.vick.framework.page.PageRequest;
+import com.vick.framework.result.ResultModel;
+import com.vick.framework.result.ResultUtil;
 import com.vick.xiu.entity.Course;
+import com.vick.xiu.entity.User;
 import com.vick.xiu.mapper.CourseMapper;
 import com.vick.xiu.service.ICourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -17,4 +27,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> implements ICourseService {
 
+    @Resource
+    private CourseMapper courseMapper;
+
+    @Override
+    public ResultModel<IPage<Course>> list(PageRequest request) {
+        Page page = new Page(request.getCurrentPage(), request.getPageSize());
+        QueryWrapper<Course> query = Wrappers.query();
+        IPage<Course> iPage = courseMapper.selectPage(page, query);
+        for (Course course : iPage.getRecords()) {
+            course.setLongTest(2222222222222222222L);
+        }
+        return ResultUtil.success(iPage);
+    }
 }

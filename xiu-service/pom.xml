@@ -19,11 +19,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!-- fastJson -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
         <!-- druid数据库连接池配置 -->
         <!-- xiu-framework中已引入 -->
         <!--<dependency>
