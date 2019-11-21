@@ -14,6 +14,11 @@
     </parent>
 
     <dependencies>
+        <!-- DruidConfig配置依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
         <!-- mybatisPlus MapperScan注解依赖 -->
         <dependency>
             <groupId>com.baomidou</groupId>

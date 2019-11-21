@@ -20,6 +20,7 @@ public class DefaultExceptionHandler {
         ResultModel resultModel = new ResultModel();
         resultModel.setCode(ResultEnum.FAILURE.getKey());
         resultModel.setMessage(ResultEnum.FAILURE.getDesc());
+        log.error("Resolved [" + e + "]");
         return resultModel;
     }
 
@@ -28,6 +29,7 @@ public class DefaultExceptionHandler {
         ResultModel resultModel = new ResultModel();
         resultModel.setCode(null == e.getCode() ? ResultEnum.FAILURE.getKey() : e.getCode());
         resultModel.setMessage(null == e.getMessage() ? ResultEnum.FAILURE.getDesc() : e.getMessage());
+        log.error("Resolved [" + e + "]");
         return resultModel;
     }
 }

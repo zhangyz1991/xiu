@@ -24,7 +24,7 @@
         <spring-cloud.version>Hoxton.RC1</spring-cloud.version>
         <!-- spring-boot -->
         <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
-        <druid.version>1.1.20</druid.version>
+        <druid.version>1.1.21</druid.version>
         <!-- swagger -->
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
@@ -57,6 +57,12 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- druid数据库连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
             </dependency>
             <!-- mybatisPlus -->
             <dependency>

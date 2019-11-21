@@ -14,12 +14,7 @@
     </parent>
 
     <dependencies>
-        <!-- 数据源及数据库驱动 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
+        <!-- 数据库驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -29,6 +24,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+        <!-- druid数据库连接池配置 -->
+        <!-- xiu-framework中已引入 -->
+        <!--<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>-->
         <!-- SpringBoot启动类及RESTFUL API用到的WEB注解类 -->
         <!-- xiu-framework中已引入 -->
         <!--<dependency>
