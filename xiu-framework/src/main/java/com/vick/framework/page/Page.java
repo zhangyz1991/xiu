@@ -5,13 +5,7 @@ package com.vick.framework.page;
  * @since 2019-11-21
  */
 
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.List;
 
 /**
  * 作者：zyz 日期：2019/11/21 描述：简单分页模型

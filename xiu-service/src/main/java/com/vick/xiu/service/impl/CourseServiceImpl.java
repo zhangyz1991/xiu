@@ -12,6 +12,7 @@ import com.vick.xiu.entity.User;
 import com.vick.xiu.mapper.CourseMapper;
 import com.vick.xiu.service.ICourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.vick.xiu.web.request.CourseRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,5 +40,16 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
             course.setLongTest(2222222222222222222L);
         }
         return ResultUtil.success(iPage);
+    }
+
+    @Override
+    public ResultModel add(CourseRequest request) {
+        Course course = new Course();
+        course.setName(request.getName());
+        int insertResult = courseMapper.insert(course);
+        if (insertResult == 0) {
+            return ResultUtil.failure("course add failure");
+        }
+        return ResultUtil.success();
     }
 }

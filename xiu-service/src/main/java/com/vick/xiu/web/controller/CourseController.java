@@ -6,6 +6,7 @@ import com.vick.framework.page.PageRequest;
 import com.vick.framework.result.ResultModel;
 import com.vick.xiu.entity.Course;
 import com.vick.xiu.service.ICourseService;
+import com.vick.xiu.web.request.CourseRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -40,5 +41,14 @@ public class CourseController {
     })
     public ResultModel<IPage<Course>> list(@RequestBody PageRequest request) {
         return iCourseService.list(request);
+    }
+
+    @PostMapping(value = "add")
+    @ApiOperation(value = "添加课程", notes = "添加课程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", required = true, dataType = "CourseRequest")
+    })
+    public ResultModel list(@RequestBody CourseRequest request) {
+        return iCourseService.add(request);
     }
 }

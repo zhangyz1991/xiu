@@ -5,6 +5,7 @@ import com.vick.framework.page.PageRequest;
 import com.vick.framework.result.ResultModel;
 import com.vick.xiu.entity.Course;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.vick.xiu.web.request.CourseRequest;
 
 /**
  * <p>
@@ -17,4 +18,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ICourseService extends IService<Course> {
 
     ResultModel<IPage<Course>> list(PageRequest request);
+
+    ResultModel add(CourseRequest request);
 }
