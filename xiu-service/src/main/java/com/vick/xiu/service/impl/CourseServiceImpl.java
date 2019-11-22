@@ -3,15 +3,14 @@ package com.vick.xiu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.vick.framework.page.Page;
 import com.vick.framework.page.PageRequest;
 import com.vick.framework.result.ResultModel;
 import com.vick.framework.result.ResultUtil;
 import com.vick.xiu.entity.Course;
-import com.vick.xiu.entity.User;
 import com.vick.xiu.mapper.CourseMapper;
 import com.vick.xiu.service.ICourseService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.vick.xiu.web.request.CourseRequest;
 import org.springframework.stereotype.Service;
 
@@ -35,10 +34,8 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     public ResultModel<IPage<Course>> list(PageRequest request) {
         Page page = new Page(request.getCurrentPage(), request.getPageSize());
         QueryWrapper<Course> query = Wrappers.query();
-        IPage<Course> iPage = courseMapper.selectPage(page, query);
-        for (Course course : iPage.getRecords()) {
-            course.setLongTest(2222222222222222222L);
-        }
+        query.orderByAsc("id");
+        IPage iPage = courseMapper.selectPage(page, query);
         return ResultUtil.success(iPage);
     }
 

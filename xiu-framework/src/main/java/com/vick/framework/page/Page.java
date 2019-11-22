@@ -6,6 +6,7 @@ package com.vick.framework.page;
  */
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.vick.framework.serialize.LongJsonSerializer;
 
 /**
  * 作者：zyz 日期：2019/11/21 描述：简单分页模型
@@ -19,6 +20,7 @@ public class Page<T> extends com.baomidou.mybatisplus.extension.plugins.paginati
      */
     @JsonSerialize(using = LongJsonSerializer.class)
     private long total;
+
     /**
      * 每页显示条数
      */
@@ -44,7 +46,7 @@ public class Page<T> extends com.baomidou.mybatisplus.extension.plugins.paginati
      * @param size    每页显示条数
      */
     public Page(long current, long size) {
-        super(current, size, 0);
+        super(current, size);
     }
 
 }

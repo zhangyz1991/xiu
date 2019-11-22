@@ -11,6 +11,7 @@
         <module>xiu-service</module>
         <module>xiu-framework</module>
         <module>txlcn</module>
+        <module>xiu-register</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -21,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <!-- spring-cloud -->
-        <spring-cloud.version>Hoxton.RC1</spring-cloud.version>
+        <spring-cloud.version>Hoxton.RC2</spring-cloud.version>
         <!-- spring-boot -->
         <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
         <druid.version>1.1.21</druid.version>
@@ -30,6 +31,8 @@
         <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
         <!-- mybatis-plus -->
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
+        <!--  -->
+
         <fastjson.version>1.2.58</fastjson.version>
     </properties>
 
@@ -70,7 +73,7 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            <!-- fastJson -->
+            <!-- fastJson 目前无用 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>

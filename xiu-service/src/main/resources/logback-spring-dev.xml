@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+
+    <contextName>logback</contextName>
+    <!-- 读取spring.application.name中的属性来生成日志文件名 -->
+    <springProperty scope="context" name="app.name" source="spring.application.name"/>
+    <springProperty scope="context" name="server.tomcat.basedir" source="server.tomcat.basedir"/>
+    <!--定义参数,后面可以通过${log.name}使用-->
+    <property name="log.home" value="${server.tomcat.basedir}/logs"/>
+    <!--ConsoleAppender 用于在屏幕上输出日志-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <!--定义一个过滤器:这里定义了INFO,也就是控制台不会输出比INFO级别小的日志-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <!--encoder 定义控制台输出格式:默认配置为PatternLayoutEncoder-->
+        <encoder>
+            <pattern>%d [%thread] %-5level [%file : %line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <!--定义日志输出的路径-->
+        <file>${log.home}/${app.name}.log</file>
+        <!--定义日志滚动的策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--定义文件滚动时的文件名的格式-->
+            <fileNamePattern>${log.home}/${app.name}.%d{yyyy-MM-dd.HH}.log.gz</fileNamePattern>
+            <!--保留最近60天的日志，日志量最大20GB-->
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <!--每个日志文件最大100MB-->
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%d [%thread] %-5level [%file : %line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--root是默认的logger 这里设定输出级别是INFO-->
+    <root level="INFO">
+        <!--定义了两个appender，日志会往这两个appender里面写-->
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
+    </root>
+
+    <!--Logger类中有一个Feild:name: 就是构造Logger时的入参:string:name 或是 从入参Class转化得来的String:Class.getName()-->
+    <!--对于Logger.name等于或是以 org.springframework.web 开头的Logger,输出级别设置为warn-->
+    <!--这个logger没有指定appender,所以它本身不会输出,但它会默认将日志数据向上传递到root节点中定义的那些appender进行输出-->
+    <logger name="org.springframework" level="warn"/>
+
+    <!--由于这个logger引入了appender:studou,如果没有设置 additivity="false"，就会默认地将日志数据传递到root中的appender:stodou&file,这将会导致一条日志在控制台输出两次的情况-->
+    <!--additivity表示要不要向rootLogger配置的appender进行输出-->
+    <logger name="mytest" level="info" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+
+    <!--由于设置了 additivity="false" ，所以输出时不会使用rootLogger的appender-->
+    <!--但是这个logger本身又没有配置appender，所以使用这个logger输出日志的话就不会输出到任何地方-->
+    <logger name="mytest2" level="info" additivity="false"/>
+</configuration>
