@@ -106,7 +106,7 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <configuration>
-                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                    <outputDirectory>${project.build.directory}/../lib</outputDirectory>
                     <!--表示是否不包含间接依赖的包-->
                     <excludeTransitive>false</excludeTransitive>
                     <!--表示复制的jar文件去掉版本信息-->
