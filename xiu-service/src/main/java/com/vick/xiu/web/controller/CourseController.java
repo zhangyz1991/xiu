@@ -11,10 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -34,12 +31,12 @@ public class CourseController {
     @Resource
     private ICourseService iCourseService;
 
-    @PostMapping(value = "list")
+    @GetMapping(value = "list")
     @ApiOperation(value = "课程列表", notes = "课程列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "request", required = true, dataType = "PageRequest")
+            @ApiImplicitParam(name = "request", readOnly = true, dataType = "PageRequest")
     })
-    public ResultModel<IPage<Course>> list(@RequestBody PageRequest request) {
+    public ResultModel<IPage<Course>> list(PageRequest request) {
         return iCourseService.list(request);
     }
 

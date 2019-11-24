@@ -60,20 +60,61 @@
 
     <build>
         <plugins>
+            <!--打包方式一:不含依赖jar包的打包方式-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.vick.xiu.ServiceApplication</mainClass>
-                    <executable>true</executable>
+                    <!--是否打包成打执行文件,若为true，则可./app直接运行-->
+                    <executable>false</executable>
+                    <layout>ZIP</layout>
+                    <includes>
+                        <include>
+                            <!-- 排除所有Jar -->
+                            <groupId>nothing</groupId>
+                            <artifactId>nothing</artifactId>
+                        </include>
+                    </includes>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!--打包方式二:包含依赖jar包的整体打包方式-->
+            <!--<plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.vick.xiu.ServiceApplication</mainClass>
+                    &lt;!&ndash;是否打包成打执行文件,若为true，则可./app直接运行&ndash;&gt;
+                    <executable>false</executable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            &lt;!&ndash;可以把依赖的包都打包到生成的Jar包中&ndash;&gt;
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                    <!--表示是否不包含间接依赖的包-->
+                    <excludeTransitive>false</excludeTransitive>
+                    <!--表示复制的jar文件去掉版本信息-->
+                    <stripVersion>false</stripVersion>
+                    <excludeArtifactIds>
+                        spring-boot-devtools
+                    </excludeArtifactIds>
+                </configuration>
             </plugin>
         </plugins>
     </build>
