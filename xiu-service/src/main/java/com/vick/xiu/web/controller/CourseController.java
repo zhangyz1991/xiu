@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * <p>
@@ -57,12 +58,12 @@ public class CourseController {
     })
     /**
      * @RequestBody不能接收单个的原始类型对象(除String)，
-     * 但可以以String类型的变量接收整个Json字符串，
+     * 但可以以String类型的变量接收整个Json字符串-然后就可以用这个字符串转化为Json对象继续处理，
      * 也可以以Map对象接收json对象(Spring底层就是用Map处理的),
      * 也可以把原始数据类型放入JavaBean里接收
      */
-    public ResultModel delete(@RequestBody String id) {
-        boolean removeResult = iCourseService.removeById(Integer.valueOf(id));
+    public ResultModel delete(@RequestBody Map<String, Integer> map) {
+        boolean removeResult = iCourseService.removeById(map.get("id"));
         if (removeResult) {
             return ResultUtil.success();
         } else {
