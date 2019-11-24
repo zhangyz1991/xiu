@@ -26,6 +26,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.vick.register.RegisterApplication</mainClass>
                     <executable>true</executable>

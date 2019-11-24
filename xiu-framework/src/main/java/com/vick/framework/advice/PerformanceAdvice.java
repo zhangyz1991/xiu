@@ -2,8 +2,6 @@ package com.vick.framework.advice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sun.deploy.net.HttpRequest;
-import com.sun.deploy.net.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,6 +9,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author zyz
@@ -33,8 +34,8 @@ public class PerformanceAdvice {
         ObjectNode node = mapper.getNodeFactory().objectNode();
         for (int i = 0; i < params.length; i++) {
             if (params[i] instanceof BindingResult
-                    || params[i] instanceof HttpRequest
-                    || params[i] instanceof HttpResponse) {
+                    || params[i] instanceof HttpServletRequest
+                    || params[i] instanceof HttpServletResponse) {
                 continue;
             }
             node.put("p" + i + "-" + params[i].getClass().getSimpleName(), mapper.writeValueAsString(params[i]));

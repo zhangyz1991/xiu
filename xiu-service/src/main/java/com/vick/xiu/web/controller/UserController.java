@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -37,12 +34,12 @@ public class UserController {
     /**
      * 使用@GetMapping会有|{}"等问题，也可以前端对URL编码，还可以换用jetty服务器
      */
-    @PostMapping(value = "list")
+    @GetMapping(value = "list")
     @ApiOperation(value = "学生列表", notes = "学生列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", required = true, dataType = "UserListRequest")
     })
-    public ResultModel<IPage<User>> list(@RequestBody UserListRequest request) {
+    public ResultModel<IPage<User>> list(UserListRequest request) {
         return iUserService.list(request);
     }
 }

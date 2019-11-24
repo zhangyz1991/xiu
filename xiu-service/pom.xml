@@ -60,10 +60,11 @@
 
     <build>
         <plugins>
-            <!--打包方式一:不含依赖jar包的打包方式-->
+            <!--打包方式一:不含依赖jar包的打包方式 需配合maven-dependency-plugin-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.vick.xiu.ServiceApplication</mainClass>
                     <!--是否打包成打执行文件,若为true，则可./app直接运行-->
@@ -85,6 +86,19 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/../lib</outputDirectory>
+                    <!--表示是否不包含间接依赖的包-->
+                    <excludeTransitive>false</excludeTransitive>
+                    <!--表示复制的jar文件去掉版本信息-->
+                    <stripVersion>false</stripVersion>
+                    <excludeArtifactIds>
+                        spring-boot-devtools
+                    </excludeArtifactIds>
+                </configuration>
+            </plugin>
             <!--打包方式二:包含依赖jar包的整体打包方式-->
             <!--<plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -103,19 +117,6 @@
                     </execution>
                 </executions>
             </plugin>-->
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/../lib</outputDirectory>
-                    <!--表示是否不包含间接依赖的包-->
-                    <excludeTransitive>false</excludeTransitive>
-                    <!--表示复制的jar文件去掉版本信息-->
-                    <stripVersion>false</stripVersion>
-                    <excludeArtifactIds>
-                        spring-boot-devtools
-                    </excludeArtifactIds>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
