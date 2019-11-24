@@ -4,6 +4,7 @@ package com.vick.xiu.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.vick.framework.page.PageRequest;
 import com.vick.framework.result.ResultModel;
+import com.vick.framework.result.ResultUtil;
 import com.vick.xiu.entity.Course;
 import com.vick.xiu.service.ICourseService;
 import com.vick.xiu.web.request.CourseRequest;
@@ -45,7 +46,27 @@ public class CourseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", required = true, dataType = "CourseRequest")
     })
-    public ResultModel list(@RequestBody CourseRequest request) {
+    public ResultModel add(@RequestBody CourseRequest request) {
         return iCourseService.add(request);
+    }
+
+    @PostMapping(value = "delete")
+    @ApiOperation(value = "删除课程", notes = "删除课程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", required = true, dataType = "Map<String,Integer>")
+    })
+    /**
+     * @RequestBody不能接收单个的原始类型对象(除String)，
+     * 但可以以String类型的变量接收整个Json字符串，
+     * 也可以以Map对象接收json对象(Spring底层就是用Map处理的),
+     * 也可以把原始数据类型放入JavaBean里接收
+     */
+    public ResultModel delete(@RequestBody String id) {
+        boolean removeResult = iCourseService.removeById(Integer.valueOf(id));
+        if (removeResult) {
+            return ResultUtil.success();
+        } else {
+            return ResultUtil.failure("删除课程失败");
+        }
     }
 }
