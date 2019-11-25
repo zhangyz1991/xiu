@@ -12,6 +12,7 @@ import com.vick.xiu.entity.Course;
 import com.vick.xiu.mapper.CourseMapper;
 import com.vick.xiu.service.ICourseService;
 import com.vick.xiu.web.request.CourseRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -42,7 +43,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     @Override
     public ResultModel add(CourseRequest request) {
         Course course = new Course();
-        course.setName(request.getName());
+        BeanUtils.copyProperties(request, course);
         int insertResult = courseMapper.insert(course);
         if (insertResult == 0) {
             return ResultUtil.failure("course add failure");

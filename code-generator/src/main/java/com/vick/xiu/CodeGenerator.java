@@ -28,7 +28,7 @@ public class CodeGenerator {
     /**
      * 代码生成路径
      */
-    private static final String OUTPUT_DIR = "D:\\Documents\\IdeaProjects\\xiu\\xiu-service";
+    private static final String OUTPUT_DIR = "D:\\mybatisPlus";
 
     private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
     private static final String HOST = "localhost";
@@ -72,7 +72,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(URL + scanner("数据库名") + "useUnicode=true&useSSL=false&serverTimezone=GMT%2B8");
+        dsc.setUrl(URL + scanner("数据库名") + "?useUnicode=true&useSSL=false&serverTimezone=GMT%2B8");
         // dsc.setSchemaName("public");
         dsc.setDriverName(DRIVER_NAME);
         dsc.setUsername(USERNAME);

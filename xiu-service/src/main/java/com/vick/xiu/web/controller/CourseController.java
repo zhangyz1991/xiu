@@ -12,9 +12,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -47,14 +49,17 @@ public class CourseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", required = true, dataType = "CourseRequest")
     })
-    public ResultModel add(@RequestBody CourseRequest request) {
+    public ResultModel add(@Valid @RequestBody CourseRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.validFailure(bindingResult);
+        }
         return iCourseService.add(request);
     }
 
     @PostMapping(value = "delete")
     @ApiOperation(value = "删除课程", notes = "删除课程")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", required = true, dataType = "Map<String,Integer>")
+            @ApiImplicitParam(name = "id", required = true, dataType = "Long")
     })
     /**
      * @RequestBody不能接收单个的原始类型对象(除String)，
@@ -62,7 +67,7 @@ public class CourseController {
      * 也可以以Map对象接收json对象(Spring底层就是用Map处理的),
      * 也可以把原始数据类型放入JavaBean里接收
      */
-    public ResultModel delete(@RequestBody Map<String, Integer> map) {
+    public ResultModel delete(@RequestBody Map<String, Long> map) {
         boolean removeResult = iCourseService.removeById(map.get("id"));
         if (removeResult) {
             return ResultUtil.success();

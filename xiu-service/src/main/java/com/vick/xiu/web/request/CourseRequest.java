@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -19,6 +20,7 @@ public class CourseRequest implements Serializable {
     @ApiModelProperty(value = "课程ID")
     private Integer id;
 
-    @ApiModelProperty(value = "课程名称")
+    @ApiModelProperty(value = "课程名称",required = true)
+    @NotBlank(message = "名称不能为空")
     private String name;
 }
