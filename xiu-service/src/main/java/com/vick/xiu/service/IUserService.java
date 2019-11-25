@@ -5,6 +5,8 @@ import com.vick.framework.result.ResultModel;
 import com.vick.xiu.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.vick.xiu.web.request.UserListRequest;
+import com.vick.xiu.web.request.UserRequest;
+import com.vick.xiu.web.response.UserResponse;
 
 /**
  * <p>
@@ -16,5 +18,7 @@ import com.vick.xiu.web.request.UserListRequest;
  */
 public interface IUserService extends IService<User> {
 
-    ResultModel<IPage<User>> list(UserListRequest request);
+    ResultModel<IPage<UserResponse>> list(UserListRequest request);
+
+    ResultModel update(UserRequest request);
 }

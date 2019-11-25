@@ -1,29 +1,22 @@
-package com.vick.xiu.entity;
+package com.vick.xiu.web.response;
 
-import io.swagger.annotations.ApiModel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author zyz
  * @since 2019-11-25
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@ApiModel(value="Grade对象", description="")
-public class Grade implements Serializable {
+@Getter
+@Setter
+public class GradeResponse implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2340361909705045018L;
 
     @ApiModelProperty(value = "年级ID")
     private Long id;
@@ -31,11 +24,11 @@ public class Grade implements Serializable {
     @ApiModelProperty(value = "年级")
     private String name;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty(value = "开始时间")
     private LocalDate startDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty(value = "结束时间")
     private LocalDate endDate;
-
-
 }

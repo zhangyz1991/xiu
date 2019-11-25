@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author zyz
@@ -42,6 +42,12 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Override
     public ResultModel add(CourseRequest request) {
+        QueryWrapper<Course> query = Wrappers.query();
+        query.eq("name", request.getName());
+        Integer count = courseMapper.selectCount(query);
+        if (count > 0) {
+            return ResultUtil.failure("课程已存在");
+        }
         Course course = new Course();
         BeanUtils.copyProperties(request, course);
         int insertResult = courseMapper.insert(course);
