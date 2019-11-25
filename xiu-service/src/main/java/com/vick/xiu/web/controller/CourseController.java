@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Map;
 
 /**
  * <p>
@@ -59,20 +58,21 @@ public class CourseController {
     @PostMapping(value = "delete")
     @ApiOperation(value = "删除课程", notes = "删除课程")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", required = true, dataType = "Long")
+            @ApiImplicitParam(name = "id", value = "ID", required = true, dataType = "Long")
     })
     /**
-     * @RequestBody不能接收单个的原始类型对象(除String)，
-     * 但可以以String类型的变量接收整个Json字符串-然后就可以用这个字符串转化为Json对象继续处理，
-     * 也可以以Map对象接收json对象(Spring底层就是用Map处理的),
-     * 也可以把原始数据类型放入JavaBean里接收
+     * @RequestBody不能接收json格式的(如{"a":v})单个的原始类型对象(除String)，但
+     * 1-1 可以以String类型的变量接收整个Json字符串-然后就可以用这个字符串转化为Json对象继续处理，
+     * 1-2 也可以以Map对象接收json对象(Spring底层就是用Map处理的),
+     * 1-3 也可以把原始数据类型放入JavaBean里接收
+     * 2   也可以直接传输值,比如要传输{"id":2},可直接在body中输出 2
      */
-    public ResultModel delete(@RequestBody Map<String, Long> map) {
-        boolean removeResult = iCourseService.removeById(map.get("id"));
+    public ResultModel delete(@RequestBody Long id) {
+        boolean removeResult = iCourseService.removeById(id);
         if (removeResult) {
             return ResultUtil.success();
         } else {
-            return ResultUtil.failure("删除课程失败");
+            return ResultUtil.failure("没有发现要删除的数据");
         }
     }
 }
