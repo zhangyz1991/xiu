@@ -1,7 +1,6 @@
 package com.vick.framework.config;
 
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.gateon.service.framework.util.DateUtil;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 
@@ -19,7 +18,7 @@ public class LocalDateTimeSerializerConfig {
      */
     @Bean
     public LocalDateTimeSerializer localDateTimeDeserializer() {
-        return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DateUtil.DATE_PATTERN));
+        return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     @Bean
