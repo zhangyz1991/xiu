@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author zyz
- * @since 2019-11-10
+ * @since 2019-11-26
  */
 public interface ScoreMapper extends BaseMapper<Score> {
 

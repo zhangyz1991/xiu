@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author zyz
- * @since 2019-11-10
+ * @since 2019-11-26
  */
 public interface IScoreService extends IService<Score> {
 

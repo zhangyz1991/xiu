@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class UserListRequest extends PageRequest implements Serializable {
+public class UserQueryRequest extends PageRequest implements Serializable {
     
     private static final long serialVersionUID = 1197978498608930962L;
 }

@@ -11,7 +11,7 @@ import com.vick.framework.util.ConverterUtils;
 import com.vick.xiu.entity.User;
 import com.vick.xiu.mapper.UserMapper;
 import com.vick.xiu.service.IUserService;
-import com.vick.xiu.web.request.UserListRequest;
+import com.vick.xiu.web.request.UserQueryRequest;
 import com.vick.xiu.web.request.UserRequest;
 import com.vick.xiu.web.response.UserResponse;
 import org.springframework.beans.BeanUtils;
@@ -36,7 +36,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private UserMapper userMapper;
 
     @Override
-    public ResultModel<IPage<UserResponse>> list(UserListRequest request) {
+    public ResultModel<IPage<UserResponse>> list(UserQueryRequest request) {
         Page page = new Page(request.getCurrentPage(), request.getPageSize());
         QueryWrapper<User> wrapper = Wrappers.query();
         wrapper.orderByDesc("id");

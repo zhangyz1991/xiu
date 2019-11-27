@@ -15,7 +15,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author zyz
- * @since 2019-11-25
+ * @since 2019-11-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -37,20 +37,14 @@ public class Exam implements Serializable {
     @ApiModelProperty(value = "考试时间")
     private LocalDate date;
 
-    @ApiModelProperty(value = "总成绩")
-    private Float totalScore;
-
-    @ApiModelProperty(value = "班级排名")
-    private Float classRanking;
+    @ApiModelProperty(value = "满分")
+    private Float fullMarks;
 
     @ApiModelProperty(value = "班级人数")
-    private Float classSize;
-
-    @ApiModelProperty(value = "年级排名")
-    private Float gradeRanking;
+    private Integer classSize;
 
     @ApiModelProperty(value = "年级人数")
-    private Float gradeSize;
+    private Integer gradeSize;
 
 
 }

@@ -1,11 +1,12 @@
 package com.vick.xiu.entity;
 
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -18,25 +19,19 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="Score对象", description="")
-public class Score implements Serializable {
+@ApiModel(value="ExamCourse对象", description="")
+public class ExamCourse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "考试ID")
     private Long examId;
 
-    @ApiModelProperty(value = "用户ID")
-    private Long userId;
+    @ApiModelProperty(value = "课程ID")
+    private Long courseId;
 
-    @ApiModelProperty(value = "用户总成绩")
-    private Integer totalScore;
-
-    @ApiModelProperty(value = "班级排名")
-    private Integer classRanking;
-
-    @ApiModelProperty(value = "年级排名")
-    private Integer gradeRanking;
+    @ApiModelProperty(value = "课程满分")
+    private String courseFullMarks;
 
 
 }

@@ -1,6 +1,6 @@
 package com.vick.xiu.mapper;
 
-import com.vick.xiu.entity.Exam;
+import com.vick.xiu.entity.ExamCourse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author zyz
  * @since 2019-11-26
  */
-public interface ExamMapper extends BaseMapper<Exam> {
+public interface ExamCourseMapper extends BaseMapper<ExamCourse> {
 
 }

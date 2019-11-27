@@ -42,11 +42,11 @@ public class GradeController {
     @Resource
     private IGradeService iGradeService;
 
-    @GetMapping(value = "list")
     @ApiOperation(value = "年级列表", notes = "年级列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", required = true, dataType = "PageRequest")
     })
+    @GetMapping(value = "list")
     public ResultModel<IPage<GradeResponse>> list(PageRequest request) {
         IPage iPage = iGradeService.page(new Page(request.getCurrentPage(), request.getPageSize()));
         if (CollectionUtils.isEmpty(iPage.getRecords())) {
@@ -57,11 +57,11 @@ public class GradeController {
         return ResultUtil.success(iPage);
     }
 
-    @PostMapping(value = "update")
     @ApiOperation(value = "更新年级")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", required = true, dataType = "GradeRequest")
     })
+    @PostMapping(value = "update")
     public ResultModel update(@RequestBody GradeRequest request) {
         Grade grade = new Grade();
         BeanUtils.copyProperties(request, grade);
@@ -69,11 +69,11 @@ public class GradeController {
         return updateResult ? ResultUtil.success() : ResultUtil.failure("数据没有更新成功");
     }
 
-    @PostMapping(value = "add")
     @ApiOperation(value = "增加年级")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", required = true, dataType = "GradeRequest")
     })
+    @PostMapping(value = "add")
     public ResultModel add(@Valid @RequestBody GradeRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.validFailure(bindingResult);
@@ -84,11 +84,11 @@ public class GradeController {
         return saveResult ? ResultUtil.success() : ResultUtil.failure("添加年级失败");
     }
 
-    @PostMapping(value = "delete")
     @ApiOperation(value = "删除年级")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "map", required = true, dataType = "Map<String, Long>")
     })
+    @PostMapping(value = "delete")
     public ResultModel delete(@RequestBody Map<String, Long> map) {
         if (null == map.get("id")) {
             return ResultUtil.failure("ID不能为空");

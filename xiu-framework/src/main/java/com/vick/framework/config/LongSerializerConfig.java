@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @since 2019-11-21
  */
 @Configuration
-public class LongConvertConfig implements WebMvcConfigurer {
+public class LongSerializerConfig implements WebMvcConfigurer {
 
     /**
      * 解决Jackson导致Long型数据精度丢失问题
