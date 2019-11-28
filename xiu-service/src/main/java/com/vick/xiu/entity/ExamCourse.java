@@ -30,8 +30,7 @@ public class ExamCourse implements Serializable {
     @ApiModelProperty(value = "课程ID")
     private Long courseId;
 
-    @ApiModelProperty(value = "课程满分")
-    private String courseFullMarks;
-
+    @ApiModelProperty(value = "分制")
+    private Integer pointScale;
 
 }

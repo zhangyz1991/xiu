@@ -30,5 +30,4 @@ public class Course implements Serializable {
     @ApiModelProperty(value = "课程名称")
     private String name;
 
-
 }

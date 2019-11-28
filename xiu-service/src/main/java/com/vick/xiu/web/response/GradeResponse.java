@@ -1,6 +1,5 @@
 package com.vick.xiu.web.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +23,9 @@ public class GradeResponse implements Serializable {
     @ApiModelProperty(value = "年级")
     private String name;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty(value = "开始时间")
     private LocalDate startDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty(value = "结束时间")
     private LocalDate endDate;
 }

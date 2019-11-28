@@ -1,7 +1,9 @@
 package com.vick.xiu.service;
 
+import com.vick.framework.result.ResultModel;
 import com.vick.xiu.entity.Exam;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.vick.xiu.web.request.ExamRequest;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IExamService extends IService<Exam> {
 
+    ResultModel add(ExamRequest request);
 }
