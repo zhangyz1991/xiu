@@ -56,15 +56,15 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
         Long examId = exam.getId();
         List<ExamCourseRequest> examCourseRequestList = request.getExamCourseList();
         ExamCourse examCourse;
+        int sequenceNumber = 0;
         for (ExamCourseRequest examCourseRequest : examCourseRequestList) {
             examCourse = new ExamCourse();
             examCourse.setExamId(examId);
             examCourse.setCourseId(examCourseRequest.getCourseId());
             examCourse.setPointScale(examCourseRequest.getPointScale());
-
+            examCourse.setSequenceNumber(++sequenceNumber);
             examCourseMapper.insert(examCourse);
         }
-
         return ResultUtil.success();
     }
 

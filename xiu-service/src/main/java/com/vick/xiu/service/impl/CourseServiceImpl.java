@@ -9,7 +9,9 @@ import com.vick.framework.page.PageRequest;
 import com.vick.framework.result.ResultModel;
 import com.vick.framework.result.ResultUtil;
 import com.vick.xiu.entity.Course;
+import com.vick.xiu.entity.ExamCourse;
 import com.vick.xiu.mapper.CourseMapper;
+import com.vick.xiu.mapper.ExamCourseMapper;
 import com.vick.xiu.service.ICourseService;
 import com.vick.xiu.web.request.CourseRequest;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -31,6 +34,8 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Resource
     private CourseMapper courseMapper;
+    @Resource
+    private ExamCourseMapper examCourseMapper;
 
     @Override
     public ResultModel<IPage<Course>> list(PageRequest request) {
@@ -58,5 +63,11 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
             return ResultUtil.failure("course add failure");
         }
         return ResultUtil.success();
+    }
+
+    @Override
+    public ResultModel<Course> courseListByExam(Long examId) {
+        List<Course> list = examCourseMapper.courseListByExam(examId);
+        return ResultUtil.success(list);
     }
 }

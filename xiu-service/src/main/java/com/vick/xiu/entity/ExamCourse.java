@@ -33,4 +33,7 @@ public class ExamCourse implements Serializable {
     @ApiModelProperty(value = "分制")
     private Integer pointScale;
 
+    @ApiModelProperty(value = "序号")
+    private Integer sequenceNumber;
+
 }

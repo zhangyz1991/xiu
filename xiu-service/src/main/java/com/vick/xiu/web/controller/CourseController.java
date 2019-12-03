@@ -34,6 +34,15 @@ public class CourseController {
     @Resource
     private ICourseService iCourseService;
 
+    @ApiOperation(value = "测试课程列表", notes = "测试课程列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "examId", paramType = "path", readOnly = true, dataType = "Long")
+    })
+    @GetMapping(value = "list/{examId}")
+    public ResultModel<Course> courseListByExam(@PathVariable("examId") Long examId) {
+        return iCourseService.courseListByExam(examId);
+    }
+
     @ApiOperation(value = "课程列表", notes = "课程列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", readOnly = true, dataType = "PageRequest")
