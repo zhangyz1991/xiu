@@ -14,6 +14,7 @@ import com.vick.xiu.service.ICourseService;
 import com.vick.xiu.web.request.CourseRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -40,6 +41,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         return ResultUtil.success(iPage);
     }
 
+    @Transactional
     @Override
     public ResultModel add(CourseRequest request) {
         QueryWrapper<Course> query = Wrappers.query();

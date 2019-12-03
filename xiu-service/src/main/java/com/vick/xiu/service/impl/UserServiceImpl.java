@@ -16,6 +16,7 @@ import com.vick.xiu.web.request.UserRequest;
 import com.vick.xiu.web.response.UserResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -49,6 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return ResultUtil.success(iPage);
     }
 
+    @Transactional
     @Override
     public ResultModel update(UserRequest request) {
         if (null == request.getId()) {
