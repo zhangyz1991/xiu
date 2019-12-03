@@ -62,10 +62,17 @@ public class ExamController {
     }
 
     @ApiOperation(value = "删除测试")
-    @ApiImplicitParams({})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "ID", required = true, dataType = "Long")
+    })
     @PostMapping("delete")
-    public ResultModel delete() {
-        return null;
+    public ResultModel delete(@RequestBody Long id) {
+        boolean removeResult = iExamService.removeById(id);
+        if (removeResult) {
+            return ResultUtil.success();
+        } else {
+            return ResultUtil.failure("没有发现要删除的数据");
+        }
     }
 
 }
