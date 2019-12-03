@@ -66,6 +66,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
     public ResultModel<IPage<ExamResponse>> list(PageRequest request) {
         Page page = new Page(request.getCurrentPage(), request.getPageSize());
         QueryWrapper<Exam> query = Wrappers.query();
+        query.orderByAsc("id");
         IPage iPage = examMapper.selectPage(page, query);
         if (CollectionUtils.isEmpty(iPage.getRecords())) {
             return ResultUtil.success();
