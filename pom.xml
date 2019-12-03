@@ -10,7 +10,6 @@
         <module>code-generator</module>
         <module>xiu-service</module>
         <module>xiu-framework</module>
-        <module>txlcn</module>
         <module>xiu-register</module>
     </modules>
     <packaging>pom</packaging>

@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  * @author zyz
  * @since 2019-11-26
  */
-@Api(tags = "WEB端 - 测试信息")
+@Api(tags = "WEB端 - 测试管理")
 @RestController
 @RequestMapping("/exam")
 public class ExamController {

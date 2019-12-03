@@ -33,7 +33,7 @@ import java.util.Map;
  * @author zyz
  * @since 2019-11-10
  */
-@Api(tags = "WEB端 - 年级信息")
+@Api(tags = "WEB端 - 年级管理")
 
 @RestController
 @RequestMapping("/grade")

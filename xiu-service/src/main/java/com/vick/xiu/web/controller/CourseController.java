@@ -26,7 +26,7 @@ import javax.validation.Valid;
  * @author zyz
  * @since 2019-11-10
  */
-@Api(tags = "WEB端 - 课程信息")
+@Api(tags = "WEB端 - 科目管理")
 @RestController
 @RequestMapping("/course")
 public class CourseController {

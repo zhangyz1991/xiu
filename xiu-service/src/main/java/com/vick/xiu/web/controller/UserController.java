@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2019-11-10
  */
 @Slf4j
-@Api(tags = "WEB端 - 用户信息")
+@Api(tags = "WEB端 - 用户管理")
 @RestController
 @RequestMapping("/user")
 public class UserController {
