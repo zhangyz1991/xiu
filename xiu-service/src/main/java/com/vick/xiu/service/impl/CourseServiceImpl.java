@@ -9,7 +9,6 @@ import com.vick.framework.page.PageRequest;
 import com.vick.framework.result.ResultModel;
 import com.vick.framework.result.ResultUtil;
 import com.vick.xiu.entity.Course;
-import com.vick.xiu.entity.ExamCourse;
 import com.vick.xiu.mapper.CourseMapper;
 import com.vick.xiu.mapper.ExamCourseMapper;
 import com.vick.xiu.service.ICourseService;
