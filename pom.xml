@@ -30,8 +30,7 @@
         <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
         <!-- mybatis-plus -->
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
-        <!--  -->
-
+        <!-- fastJson -->
         <fastjson.version>1.2.58</fastjson.version>
     </properties>
 
