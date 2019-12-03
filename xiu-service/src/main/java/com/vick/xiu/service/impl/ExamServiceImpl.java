@@ -73,6 +73,6 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
         }
         List list = ConverterUtils.convert(iPage.getRecords(), ExamResponse.class);
         iPage.setRecords(list);
-        return ResultUtil.success(list);
+        return ResultUtil.success(iPage);
     }
 }
