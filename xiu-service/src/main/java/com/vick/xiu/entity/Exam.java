@@ -31,6 +31,9 @@ public class Exam implements Serializable {
     @ApiModelProperty(value = "所在年级")
     private Long gradeId;
 
+    @ApiModelProperty(value = "年级")
+    private String gradeName;
+
     @ApiModelProperty(value = "考试名称")
     private String name;
 

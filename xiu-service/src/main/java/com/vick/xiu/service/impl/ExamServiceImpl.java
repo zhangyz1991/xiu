@@ -12,8 +12,10 @@ import com.vick.framework.result.ResultUtil;
 import com.vick.framework.util.ConverterUtils;
 import com.vick.xiu.entity.Exam;
 import com.vick.xiu.entity.ExamCourse;
+import com.vick.xiu.entity.Grade;
 import com.vick.xiu.mapper.ExamCourseMapper;
 import com.vick.xiu.mapper.ExamMapper;
+import com.vick.xiu.mapper.GradeMapper;
 import com.vick.xiu.service.IExamService;
 import com.vick.xiu.web.request.ExamCourseRequest;
 import com.vick.xiu.web.request.ExamRequest;
@@ -40,12 +42,16 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements IE
     private ExamMapper examMapper;
     @Resource
     private ExamCourseMapper examCourseMapper;
+    @Resource
+    private GradeMapper gradeMapper;
 
     @Transactional
     @Override
     public ResultModel add(ExamRequest request) {
         Exam exam = new Exam();
         BeanUtils.copyProperties(request, exam);
+        Grade grade = gradeMapper.selectById(request.getGradeId());
+        exam.setGradeName(grade.getName());
         examMapper.insert(exam);
         Long examId = exam.getId();
         List<ExamCourseRequest> examCourseRequestList = request.getExamCourseList();
