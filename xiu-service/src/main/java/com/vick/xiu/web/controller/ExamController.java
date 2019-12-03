@@ -1,10 +1,13 @@
 package com.vick.xiu.web.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.vick.framework.page.PageRequest;
 import com.vick.framework.result.ResultModel;
 import com.vick.framework.result.ResultUtil;
 import com.vick.xiu.service.IExamService;
 import com.vick.xiu.web.request.ExamRequest;
+import com.vick.xiu.web.response.ExamResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,10 +46,12 @@ public class ExamController {
     }
 
     @ApiOperation(value = "测试列表")
-    @ApiImplicitParams({})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", readOnly = true, dataType = "PageRequest")
+    })
     @GetMapping("list")
-    public ResultModel list() {
-        return null;
+    public ResultModel<IPage<ExamResponse>> list(PageRequest request) {
+        return iExamService.list(request);
     }
 
     @ApiOperation(value = "更新测试")
