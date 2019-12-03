@@ -45,7 +45,8 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     @Override
     public ResultModel add(CourseRequest request) {
         QueryWrapper<Course> query = Wrappers.query();
-        query.eq("name", request.getName());
+        query.eq("code", request.getCode())
+                .or().eq("name", request.getName());
         Integer count = courseMapper.selectCount(query);
         if (count > 0) {
             return ResultUtil.failure("课程已存在");

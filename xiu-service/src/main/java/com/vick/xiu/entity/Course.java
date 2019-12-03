@@ -27,6 +27,9 @@ public class Course implements Serializable {
     @ApiModelProperty(value = "课程ID")
     private Long id;
 
+    @ApiModelProperty(value = "课程编码")
+    private String code;
+
     @ApiModelProperty(value = "课程名称")
     private String name;
 

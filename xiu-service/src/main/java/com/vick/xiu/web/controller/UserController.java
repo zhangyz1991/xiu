@@ -6,7 +6,7 @@ import com.vick.framework.result.ResultModel;
 import com.vick.framework.result.ResultUtil;
 import com.vick.xiu.entity.User;
 import com.vick.xiu.service.IUserService;
-import com.vick.xiu.web.request.UserQueryRequest;
+import com.vick.xiu.web.request.UserListRequest;
 import com.vick.xiu.web.request.UserRequest;
 import com.vick.xiu.web.response.UserResponse;
 import io.swagger.annotations.Api;
@@ -38,10 +38,10 @@ public class UserController {
 
     @ApiOperation(value = "学生列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "request", required = true, dataType = "UserQueryRequest")
+            @ApiImplicitParam(name = "request", required = true, dataType = "UserListRequest")
     })
     @GetMapping(value = "list")
-    public ResultModel<IPage<UserResponse>> list(@ModelAttribute UserQueryRequest request) {
+    public ResultModel<IPage<UserResponse>> list(@ModelAttribute UserListRequest request) {
         return iUserService.list(request);
     }
 

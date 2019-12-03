@@ -8,11 +8,11 @@ import java.io.Serializable;
 
 /**
  * @author zyz
- * @since 2019-11-11
+ * @since 2019-12-03
  */
 @Getter
 @Setter
-public class UserQueryRequest extends PageRequest implements Serializable {
-    
-    private static final long serialVersionUID = 1197978498608930962L;
+public class ScoreListRequest extends PageRequest implements Serializable {
+
+    private static final long serialVersionUID = -637444225077067703L;
 }
