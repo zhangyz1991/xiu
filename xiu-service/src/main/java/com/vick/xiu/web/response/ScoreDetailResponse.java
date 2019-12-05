@@ -16,6 +16,9 @@ public class ScoreDetailResponse implements Serializable {
 
     private static final long serialVersionUID = -5919835936069624309L;
 
+    @ApiModelProperty(value = "成绩ID")
+    private Long scoreId;
+
     @ApiModelProperty(value = "科目ID")
     private Long courseId;
 

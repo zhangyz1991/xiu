@@ -1,6 +1,7 @@
 package com.vick.xiu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,10 +16,7 @@ import com.vick.xiu.mapper.ScoreMapper;
 import com.vick.xiu.service.IScoreDetailService;
 import com.vick.xiu.service.IScoreService;
 import com.vick.xiu.service.IUserService;
-import com.vick.xiu.web.request.ScoreAddRequest;
-import com.vick.xiu.web.request.ScoreDetailAdd;
-import com.vick.xiu.web.request.ScoreListRequest;
-import com.vick.xiu.web.request.ScoreUpdateRequest;
+import com.vick.xiu.web.request.*;
 import com.vick.xiu.web.response.ScoreDetailResponse;
 import com.vick.xiu.web.response.ScoreResponse;
 import org.springframework.beans.BeanUtils;
@@ -87,6 +85,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         ScoreDetailResponse scoreDetailRes;
         for (ScoreDetail scoreDetail : scoreDetailList) {
             scoreDetailRes = new ScoreDetailResponse();
+            scoreDetailRes.setScoreId(scoreDetail.getScoreId());
             scoreDetailRes.setCourseId(scoreDetail.getCourseId());
             scoreDetailRes.setScore(scoreDetail.getScore());
             scoreDetailRes.setCourseCode(courseIdCourseMap.get(scoreDetail.getCourseId()).getCode());
@@ -110,6 +109,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         return ResultUtil.success(iPage);
     }
 
+    @Deprecated
     @Transactional
     @Override
     public ResultModel add(ScoreAddRequest request) {
@@ -120,11 +120,11 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         ScoreDetail scoreDetail;
         if (!CollectionUtils.isEmpty(request.getScoreDetailList())) {
             List<ScoreDetail> scoreDetailList = new ArrayList<>(request.getScoreDetailList().size());
-            for (ScoreDetailAdd scoreDetailAdd : request.getScoreDetailList()) {
+            for (ScoreDetailAddReq scoreDetailAddReq : request.getScoreDetailList()) {
                 scoreDetail = new ScoreDetail();
                 scoreDetail.setScoreId(scoreId);
-                scoreDetail.setCourseId(scoreDetailAdd.getCourseId());
-                scoreDetail.setScore(scoreDetailAdd.getScore());
+                scoreDetail.setCourseId(scoreDetailAddReq.getCourseId());
+                scoreDetail.setScore(scoreDetailAddReq.getScore());
 
                 scoreDetailList.add(scoreDetail);
             }
@@ -133,9 +133,26 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         return ResultUtil.success();
     }
 
+    @Transactional
     @Override
     public ResultModel update(ScoreUpdateRequest request) {
-        return null;
+        Score scoreUpdate = new Score();
+        BeanUtils.copyProperties(request, scoreUpdate);
+        int updateResult = scoreMapper.updateById(scoreUpdate);
+        if (updateResult == 0) {
+            return ResultUtil.failure("没有要更新的数据");
+        }
+
+        List<ScoreDetailUpdateReq> scoreDetailUpdateReqList = request.getScoreDetailList();
+        UpdateWrapper<ScoreDetail> scoreDetailUpdateWrapper;
+        for (ScoreDetailUpdateReq scoreDetailUpdateReq : scoreDetailUpdateReqList) {
+            scoreDetailUpdateWrapper = Wrappers.update();
+            scoreDetailUpdateWrapper.set("score", scoreDetailUpdateReq.getScore());
+            scoreDetailUpdateWrapper.eq("score_id",scoreDetailUpdateReq.getScoreId());
+            scoreDetailUpdateWrapper.eq("course_id",scoreDetailUpdateReq.getCourseId());
+            iScoreDetailService.update(scoreDetailUpdateWrapper);
+        }
+        return ResultUtil.success();
     }
 
     @Transactional
@@ -156,12 +173,20 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         if (CollectionUtils.isEmpty(examCourseList)) {
             return ResultUtil.failure("测试科目为空");
         }
+        QueryWrapper<Score> scoreQuery = Wrappers.query();
+        scoreQuery.eq("exam_id", examId);
+        Integer count = scoreMapper.selectCount(scoreQuery);
+        if (count > 0) {
+            return ResultUtil.failure("该测试已经存在成绩单");
+        }
+
         Score score;
         List<Score> scoreList = new ArrayList<>(userList.size());
         for (User user : userList) {
             score = new Score();
             score.setExamId(examId);
             score.setUserId(user.getId());
+            score.setUserName(user.getName());
             scoreList.add(score);
         }
         this.saveBatch(scoreList);

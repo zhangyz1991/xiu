@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class ScoreDetailAdd implements Serializable {
+public class ScoreDetailAddReq implements Serializable {
 
     private static final long serialVersionUID = 1618991797708098010L;
 

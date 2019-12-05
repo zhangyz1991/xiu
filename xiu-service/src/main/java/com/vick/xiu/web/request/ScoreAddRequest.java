@@ -39,5 +39,5 @@ public class ScoreAddRequest implements Serializable {
     private Integer gradeRanking;
 
     @ApiModelProperty(value = "成绩明细")
-    private List<ScoreDetailAdd> scoreDetailList;
+    private List<ScoreDetailAddReq> scoreDetailList;
 }

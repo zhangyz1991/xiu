@@ -62,7 +62,10 @@ public class ScoreController {
             @ApiImplicitParam(name = "request", required = true, dataType = "ScoreUpdateRequest")
     })
     @PostMapping(value = "update")
-    public ResultModel update(@RequestBody ScoreUpdateRequest request) {
+    public ResultModel update(@Valid @RequestBody ScoreUpdateRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            ResultUtil.validFailure(bindingResult);
+        }
         return iScoreService.update(request);
     }
 

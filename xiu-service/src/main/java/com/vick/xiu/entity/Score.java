@@ -33,6 +33,9 @@ public class Score implements Serializable {
     @ApiModelProperty(value = "用户ID")
     private Long userId;
 
+    @ApiModelProperty(value = "用户名")
+    private String userName;
+
     @ApiModelProperty(value = "用户总成绩")
     private Integer totalScore;
 
