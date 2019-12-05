@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 /**
  * <p>
@@ -40,8 +41,20 @@ public class ScoreController {
             @ApiImplicitParam(name = "request", required = true, dataType = "ScoreListRequest")
     })
     @GetMapping(value = "list")
-    public ResultModel<IPage<ScoreResponse>> list(@ModelAttribute ScoreListRequest request) {
+    public ResultModel<IPage<ScoreResponse>> list(@Valid @ModelAttribute ScoreListRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.validFailure(bindingResult);
+        }
         return iScoreService.list(request);
+    }
+
+    @ApiOperation(value = "准备成绩单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "examId", value = "测试ID", required = true, dataType = "Long")
+    })
+    @GetMapping(value = "prepare")
+    public ResultModel prepareTranscripts(@PathParam("examId") Long examId) {
+        return iScoreService.prepareTranscripts(examId);
     }
 
     @ApiOperation(value = "修改成绩")

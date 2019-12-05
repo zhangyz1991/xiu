@@ -1,18 +1,25 @@
 package com.vick.xiu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.vick.framework.page.Page;
 import com.vick.framework.result.ResultModel;
 import com.vick.framework.result.ResultUtil;
-import com.vick.xiu.entity.Score;
-import com.vick.xiu.entity.ScoreDetail;
+import com.vick.framework.util.ConverterUtils;
+import com.vick.xiu.entity.*;
+import com.vick.xiu.mapper.ExamCourseMapper;
+import com.vick.xiu.mapper.ExamMapper;
 import com.vick.xiu.mapper.ScoreMapper;
 import com.vick.xiu.service.IScoreDetailService;
 import com.vick.xiu.service.IScoreService;
+import com.vick.xiu.service.IUserService;
 import com.vick.xiu.web.request.ScoreAddRequest;
 import com.vick.xiu.web.request.ScoreDetailAdd;
 import com.vick.xiu.web.request.ScoreListRequest;
 import com.vick.xiu.web.request.ScoreUpdateRequest;
+import com.vick.xiu.web.response.ScoreDetailResponse;
 import com.vick.xiu.web.response.ScoreResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -21,11 +28,13 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author zyz
@@ -38,10 +47,67 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     private ScoreMapper scoreMapper;
     @Resource
     private IScoreDetailService iScoreDetailService;
+    @Resource
+    private ExamMapper examMapper;
+    @Resource
+    private ExamCourseMapper examCourseMapper;
+    @Resource
+    private IUserService iUserService;
 
     @Override
     public ResultModel<IPage<ScoreResponse>> list(ScoreListRequest request) {
-        return null;
+        Long examId = request.getExamId();
+        //成绩列表
+        Page page = new Page(request.getCurrentPage(), request.getPageSize());
+        QueryWrapper<Score> scoreQuery = Wrappers.query();
+        scoreQuery.eq("exam_id", examId);
+        scoreQuery.orderByAsc("id");
+        IPage iPage = scoreMapper.selectPage(page, scoreQuery);
+        List<Score> scoreList = iPage.getRecords();
+        if (CollectionUtils.isEmpty(scoreList)) {
+            return ResultUtil.success();
+        }
+        //课程列表
+        List<Course> courseListByExam = examCourseMapper.courseListByExam(examId);
+        Map<Long, Course> courseIdCourseMap = new HashMap<>();
+        courseListByExam.forEach(course -> courseIdCourseMap.put(course.getId(), course));
+        //成绩明细列表
+        List<Long> scoreIdList = new ArrayList<>();
+        scoreList.forEach(score -> scoreIdList.add(score.getId()));
+        QueryWrapper<ScoreDetail> scoreDetailQuery = Wrappers.query();
+        scoreDetailQuery.in("score_id", scoreIdList);
+        scoreDetailQuery.orderByAsc("score_id")
+                .orderByAsc("course_id");
+        List<ScoreDetail> scoreDetailList = iScoreDetailService.list(scoreDetailQuery);
+        //组织响应信息
+        List<ScoreResponse> scoreResList = ConverterUtils.convert(scoreList, ScoreResponse.class);
+
+        Map<Long, List<ScoreDetailResponse>> scoreIdScoreDetailResListMap = new HashMap<>();
+        List<ScoreDetailResponse> scoreDetailResList;
+        ScoreDetailResponse scoreDetailRes;
+        for (ScoreDetail scoreDetail : scoreDetailList) {
+            scoreDetailRes = new ScoreDetailResponse();
+            scoreDetailRes.setCourseId(scoreDetail.getCourseId());
+            scoreDetailRes.setScore(scoreDetail.getScore());
+            scoreDetailRes.setCourseCode(courseIdCourseMap.get(scoreDetail.getCourseId()).getCode());
+            scoreDetailRes.setCourseName(courseIdCourseMap.get(scoreDetail.getCourseId()).getName());
+
+            if (!scoreIdScoreDetailResListMap.containsKey(scoreDetail.getScoreId())) {
+                scoreDetailResList = new ArrayList<>();
+                scoreIdScoreDetailResListMap.put(scoreDetail.getScoreId(), scoreDetailResList);
+                scoreDetailResList.add(scoreDetailRes);
+            } else {
+                scoreIdScoreDetailResListMap.get(scoreDetail.getScoreId()).add(scoreDetailRes);
+            }
+        }
+        for (ScoreResponse scoreResponse : scoreResList) {
+            if (scoreIdScoreDetailResListMap.containsKey(scoreResponse.getId())) {
+                scoreResponse.setScoreDetailList(scoreIdScoreDetailResListMap.get(scoreResponse.getId()));
+            }
+        }
+
+        iPage.setRecords(scoreResList);
+        return ResultUtil.success(iPage);
     }
 
     @Transactional
@@ -70,5 +136,49 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     @Override
     public ResultModel update(ScoreUpdateRequest request) {
         return null;
+    }
+
+    @Transactional
+    @Override
+    public ResultModel prepareTranscripts(Long examId) {
+        Exam exam = examMapper.selectById(examId);
+        if (exam == null) {
+            return ResultUtil.failure("测试不存在");
+        }
+        List<User> userList = iUserService.list();
+        if (CollectionUtils.isEmpty(userList)) {
+            return ResultUtil.failure("不存在用户");
+        }
+        QueryWrapper<ExamCourse> examCourseQuery = Wrappers.query();
+        examCourseQuery.eq("exam_id", examId);
+        examCourseQuery.orderByAsc("sequence_number");
+        List<ExamCourse> examCourseList = examCourseMapper.selectList(examCourseQuery);
+        if (CollectionUtils.isEmpty(examCourseList)) {
+            return ResultUtil.failure("测试科目为空");
+        }
+        Score score;
+        List<Score> scoreList = new ArrayList<>(userList.size());
+        for (User user : userList) {
+            score = new Score();
+            score.setExamId(examId);
+            score.setUserId(user.getId());
+            scoreList.add(score);
+        }
+        this.saveBatch(scoreList);
+        //保存分数明细
+        ScoreDetail scoreDetail;
+        List<ScoreDetail> scoreDetailList = new ArrayList<>(scoreList.size() * examCourseList.size());
+        for (int i = 0; i < scoreList.size(); i++) {
+            score = scoreList.get(i);
+            for (ExamCourse examCourse : examCourseList) {
+                scoreDetail = new ScoreDetail();
+                scoreDetail.setScoreId(score.getId());
+                scoreDetail.setCourseId(examCourse.getCourseId());
+
+                scoreDetailList.add(scoreDetail);
+            }
+        }
+        iScoreDetailService.saveBatch(scoreDetailList);
+        return ResultUtil.success();
     }
 }

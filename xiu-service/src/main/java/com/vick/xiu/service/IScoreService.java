@@ -24,4 +24,6 @@ public interface IScoreService extends IService<Score> {
     ResultModel add(ScoreAddRequest request);
 
     ResultModel update(ScoreUpdateRequest request);
+
+    ResultModel prepareTranscripts(Long examId);
 }
