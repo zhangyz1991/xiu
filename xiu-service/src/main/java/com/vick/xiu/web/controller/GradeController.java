@@ -9,7 +9,7 @@ import com.vick.framework.result.ResultUtil;
 import com.vick.framework.util.ConverterUtils;
 import com.vick.xiu.entity.Grade;
 import com.vick.xiu.service.IGradeService;
-import com.vick.xiu.web.request.GradeRequest;
+import com.vick.xiu.web.request.GradeAddRequest;
 import com.vick.xiu.web.response.GradeResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -59,10 +59,10 @@ public class GradeController {
 
     @ApiOperation(value = "更新年级")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "request", required = true, dataType = "GradeRequest")
+            @ApiImplicitParam(name = "request", required = true, dataType = "GradeAddRequest")
     })
     @PostMapping(value = "update")
-    public ResultModel update(@RequestBody GradeRequest request) {
+    public ResultModel update(@RequestBody GradeAddRequest request) {
         Grade grade = new Grade();
         BeanUtils.copyProperties(request, grade);
         boolean updateResult = iGradeService.updateById(grade);
@@ -71,13 +71,14 @@ public class GradeController {
 
     @ApiOperation(value = "增加年级")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "request", required = true, dataType = "GradeRequest")
+            @ApiImplicitParam(name = "request", required = true, dataType = "GradeAddRequest")
     })
     @PostMapping(value = "add")
-    public ResultModel add(@Valid @RequestBody GradeRequest request, BindingResult bindingResult) {
+    public ResultModel add(@Valid @RequestBody GradeAddRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.validFailure(bindingResult);
         }
+
         Grade grade = new Grade();
         BeanUtils.copyProperties(request, grade);
         boolean saveResult = iGradeService.save(grade);

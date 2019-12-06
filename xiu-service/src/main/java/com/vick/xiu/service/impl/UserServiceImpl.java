@@ -12,7 +12,7 @@ import com.vick.xiu.entity.User;
 import com.vick.xiu.mapper.UserMapper;
 import com.vick.xiu.service.IUserService;
 import com.vick.xiu.web.request.UserListRequest;
-import com.vick.xiu.web.request.UserRequest;
+import com.vick.xiu.web.request.UserUpdateRequest;
 import com.vick.xiu.web.response.UserResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -52,10 +52,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Transactional
     @Override
-    public ResultModel update(UserRequest request) {
-        if (null == request.getId()) {
-            return ResultUtil.failure("ID不能为空");
-        }
+    public ResultModel update(UserUpdateRequest request) {
         User user = new User();
         BeanUtils.copyProperties(request, user);
         userMapper.updateById(user);

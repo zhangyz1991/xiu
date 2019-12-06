@@ -71,7 +71,7 @@ public class ScoreController {
 
     @ApiOperation(value = "录入成绩")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "request", required = true, dataType = "UserRequest")
+            @ApiImplicitParam(name = "request", required = true, dataType = "UserAddRequest")
     })
     @PostMapping(value = "add")
     public ResultModel add(@Valid @RequestBody ScoreAddRequest request, BindingResult bindingResult) {

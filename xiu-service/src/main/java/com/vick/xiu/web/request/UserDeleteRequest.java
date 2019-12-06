@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -12,13 +13,12 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class UserRequest implements Serializable {
+public class UserDeleteRequest implements Serializable {
 
     private static final long serialVersionUID = -860940036569744628L;
 
-    @ApiModelProperty(value = "人员ID")
+    @NotNull(message = "用户ID不能为空")
+    @ApiModelProperty(value = "用户ID", required = true)
     private Long id;
-
-    @ApiModelProperty(value = "姓名")
-    private String name;
+    
 }

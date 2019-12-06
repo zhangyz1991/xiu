@@ -6,7 +6,7 @@ package com.vick.framework.page;
  */
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.vick.framework.serialize.LongJsonSerializer;
+import com.vick.framework.serializer.LongJsonSerializer;
 
 /**
  * 作者：zyz 日期：2019/11/21 描述：简单分页模型

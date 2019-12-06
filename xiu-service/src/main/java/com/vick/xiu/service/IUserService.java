@@ -1,11 +1,11 @@
 package com.vick.xiu.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.vick.framework.result.ResultModel;
 import com.vick.xiu.entity.User;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.vick.xiu.web.request.UserListRequest;
-import com.vick.xiu.web.request.UserRequest;
+import com.vick.xiu.web.request.UserUpdateRequest;
 import com.vick.xiu.web.response.UserResponse;
 
 /**
@@ -20,5 +20,5 @@ public interface IUserService extends IService<User> {
 
     ResultModel<IPage<UserResponse>> list(UserListRequest request);
 
-    ResultModel update(UserRequest request);
+    ResultModel update(UserUpdateRequest request);
 }

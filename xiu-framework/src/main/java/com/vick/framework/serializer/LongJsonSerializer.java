@@ -1,4 +1,4 @@
-package com.vick.framework.serialize;
+package com.vick.framework.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

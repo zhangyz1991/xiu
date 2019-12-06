@@ -16,12 +16,9 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
-public class GradeRequest implements Serializable {
+public class GradeAddRequest implements Serializable {
 
     private static final long serialVersionUID = 3351814882029943335L;
-
-    @ApiModelProperty(value = "年级ID")
-    private Long id;
 
     @NotBlank(message = "年级名称不能为空")
     @ApiModelProperty(value = "年级")
