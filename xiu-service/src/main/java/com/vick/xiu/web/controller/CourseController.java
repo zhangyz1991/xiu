@@ -1,12 +1,15 @@
 package com.vick.xiu.web.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.vick.framework.page.PageRequest;
 import com.vick.framework.result.ResultModel;
 import com.vick.framework.result.ResultUtil;
 import com.vick.xiu.entity.Course;
 import com.vick.xiu.service.ICourseService;
+import com.vick.xiu.service.IExamCourseService;
 import com.vick.xiu.web.request.CourseRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -33,6 +36,8 @@ public class CourseController {
 
     @Resource
     private ICourseService iCourseService;
+    @Resource
+    private IExamCourseService iExamCourseService;
 
     @ApiOperation(value = "测试课程列表", notes = "测试课程列表")
     @ApiImplicitParams({
@@ -77,6 +82,12 @@ public class CourseController {
     })
     @PostMapping(value = "delete")
     public ResultModel delete(@RequestBody Long id) {
+        QueryWrapper query = Wrappers.query();
+        query.eq("course_id", id);
+        int count = iExamCourseService.count(query);
+        if (count > 0) {
+            return ResultUtil.failure("课程已在使用,不能删除");
+        }
         boolean removeResult = iCourseService.removeById(id);
         if (removeResult) {
             return ResultUtil.success();

@@ -1,6 +1,7 @@
 package com.vick.xiu.web.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vick.xiu.enums.GradeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +21,19 @@ public class GradeAddRequest implements Serializable {
 
     private static final long serialVersionUID = 3351814882029943335L;
 
+    @NotNull(message = "年级Code不能为空")
+    @ApiModelProperty(value = "年级Code")
+    private GradeEnum code;
+
     @NotBlank(message = "年级名称不能为空")
     @ApiModelProperty(value = "年级")
     private String name;
+
+    @NotNull(message = "学年不能为空")
+    @JsonFormat(pattern = "yyyy", timezone = "GMT+8")
+    @ApiModelProperty(value = "学年")
+    private LocalDate year;
+
 
     @NotNull(message = "开始时间不能为空")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
