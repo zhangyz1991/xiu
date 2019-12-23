@@ -1,8 +1,7 @@
 package com.vick.gateway.filter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -13,9 +12,9 @@ import java.io.IOException;
  * @author zyz
  * @since 2019-12-23
  */
+@Slf4j
 @WebFilter(filterName = "ApiAccessFilter", urlPatterns = "/*")
 public class ApiAccessFilter implements Filter {
-    private static final Logger log = LoggerFactory.getLogger(ApiAccessFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -23,9 +22,13 @@ public class ApiAccessFilter implements Filter {
     }
 
     @Override
+    public void destroy() {
+
+    }
+
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
-
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
         long start = System.currentTimeMillis(); // 请求进入时间
@@ -35,12 +38,6 @@ public class ApiAccessFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
         log.info("[Api Access]   end, uri: {}, method: {}, duration: {}ms",
                 request.getRequestURI(), request.getMethod(), System.currentTimeMillis() - start);
-
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
     /**
