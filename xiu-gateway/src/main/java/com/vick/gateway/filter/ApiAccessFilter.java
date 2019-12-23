@@ -58,7 +58,8 @@ public class ApiAccessFilter implements Filter {
         String XFor = request.getHeader("X-Forwarded-For");
 
         String UNKNOWN_IP = "unknown";
-        if (StringUtils.isNotEmpty(XFor) && !UNKNOWN_IP.equalsIgnoreCase(XFor)) {
+        boolean unknown = UNKNOWN_IP.equalsIgnoreCase(XFor);
+        if (StringUtils.isNotEmpty(XFor) && !unknown) {
             //多次反向代理后会有多个ip值，第一个ip才是真实ip
             int index = XFor.indexOf(",");
             if (index != -1) {
@@ -69,23 +70,23 @@ public class ApiAccessFilter implements Filter {
         }
 
         XFor = Xip;
-        if (StringUtils.isNotEmpty(XFor) && !UNKNOWN_IP.equalsIgnoreCase(XFor)) {
+        if (StringUtils.isNotEmpty(XFor) && !unknown) {
             return XFor;
         }
 
-        if (StringUtils.isBlank(XFor) || UNKNOWN_IP.equalsIgnoreCase(XFor)) {
+        if (StringUtils.isBlank(XFor) || unknown) {
             XFor = request.getHeader("Proxy-Client-IP");
         }
-        if (StringUtils.isBlank(XFor) || UNKNOWN_IP.equalsIgnoreCase(XFor)) {
+        if (StringUtils.isBlank(XFor) || unknown) {
             XFor = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (StringUtils.isBlank(XFor) || UNKNOWN_IP.equalsIgnoreCase(XFor)) {
+        if (StringUtils.isBlank(XFor) || unknown) {
             XFor = request.getHeader("HTTP_CLIENT_IP");
         }
-        if (StringUtils.isBlank(XFor) || UNKNOWN_IP.equalsIgnoreCase(XFor)) {
+        if (StringUtils.isBlank(XFor) || unknown) {
             XFor = request.getHeader("HTTP_X_FORWARDED_FOR");
         }
-        if (StringUtils.isBlank(XFor) || UNKNOWN_IP.equalsIgnoreCase(XFor)) {
+        if (StringUtils.isBlank(XFor) || unknown) {
             XFor = request.getRemoteAddr();
         }
         return XFor;
