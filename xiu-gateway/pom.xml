@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xiu-register</artifactId>
+    <artifactId>xiu-gateway</artifactId>
     <packaging>jar</packaging>
 
     <parent>
@@ -14,15 +14,25 @@
     </parent>
 
     <dependencies>
-        <!-- eureka server -->
+        <!-- eureka client -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-        <!-- WebSecurityConfig用到，删除这个类就不需要 -->
+        <!-- zuul网关 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+        </dependency>
+        <!-- 自动生成接口文档 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <!-- 自动生成测试网页 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
         </dependency>
         <!-- 引入Actuator监控依赖,现在没多大作用 -->
         <dependency>
@@ -36,9 +46,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.vick.register.RegisterApplication</mainClass>
+                    <mainClass>com.vick.gateway.GatewayApplication</mainClass>
                     <executable>true</executable>
                 </configuration>
                 <executions>

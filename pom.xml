@@ -11,6 +11,7 @@
         <module>xiu-service</module>
         <module>xiu-framework</module>
         <module>xiu-register</module>
+        <module>xiu-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -30,6 +31,8 @@
         <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
         <!-- mybatis-plus -->
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
+        <!-- quartz -->
+        <quartz.version>2.3.0</quartz.version>
         <!-- fastJson -->
         <fastjson.version>1.2.58</fastjson.version>
     </properties>
@@ -88,6 +91,12 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>swagger-bootstrap-ui</artifactId>
                 <version>${swagger-bootstrap-ui.version}</version>
+            </dependency>
+            <!-- quartz -->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
             </dependency>
 
         </dependencies>

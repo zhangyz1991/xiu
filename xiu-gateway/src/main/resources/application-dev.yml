@@ -1,0 +1,50 @@
+#配置文件加载顺序: logback.xml--->application.properties--->logback-spring.xml
+server:
+  port: 3001
+  tomcat:
+    basedir: /opt/services/xiu/xiu-gateway
+    accesslog:
+      enabled: true
+      directory: logs
+eureka:
+  instance:
+    #将IP注册到Eureka Server上，而如果不配置就是机器的主机名
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://vick:success@localhost:3000/eureka/
+logging:
+  #logging.level.root的级别会覆盖logback-spring.xml中定义的root的级别
+  #logback-spring.xml会覆盖logging.file.path 所以要集中到一处进行配置
+  #file:
+    #path: logs/xiu-gateway
+  #level:
+    #root: INFO
+  config: classpath:logback-spring-${spring.profiles.active}.xml
+swagger2:
+  #开发环境用true，生产环境上禁止swagger，用false
+  enable: true
+spring:
+  application:
+    name: xiu-gateway
+zuul:
+  sensitive-headers: Access-Control-Allow-Origin
+  ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
+  prefix: /xiu
+  ignored-services: "*"
+  routes:
+    service:
+      path: /xiu-service/**
+      serviceId: xiu-service
+#actuator监控配置
+management:
+  endpoints:
+    #actuator默认只开启了info和health两个端点,以下配置打开其他端点
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    #显示健康具体信息  默认不会显示详细信息
+    health:
+      show-details: always

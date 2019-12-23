@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author zyz
  * @since 2019-11-11
  */
-@ComponentScan("com.vick.*")
+@ComponentScan("com.vick")
 @SpringBootApplication
 public class ServiceApplication {
     public static void main(String[] args) {
