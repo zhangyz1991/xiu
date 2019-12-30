@@ -72,14 +72,14 @@ spring:
         # 添加IP黑名单，当白名单和黑名单重复时，黑名单优先级更高
         #deny:
       web-stat-filter:
-        enabled: true
+        enabled: false
         # 添加过滤规则
         url-pattern: /*
         # 忽略过滤格式
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
     #定时任务配置信息
   quartz:
-   auto-startup: false
+   auto-startup: true
 mybatis-plus:
   # 指定sql映射文件位置
   mapper-locations: classpath:mapper/*.xml
@@ -88,19 +88,8 @@ mybatis-plus:
     #驼峰下划线转换
     db-column-underline: true
   #打印SQL
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #configuration:
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 swagger2:
   #开发环境用true，生产环境上禁止swagger，用false
-  enable: true
-#actuator监控配置
-management:
-  endpoints:
-    #actuator默认只开启了info和health两个端点,以下配置打开其他端点
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    #显示健康具体信息  默认不会显示详细信息
-    health:
-      show-details: always
+  enable: false
