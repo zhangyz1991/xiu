@@ -29,14 +29,31 @@ spring:
     name: xiu-service
   #数据源配置信息
   datasource:
-    #数据源基本配置信息
+    #指定数据源类型
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xiu?useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
-    username: root
-    password: success
-    #druid连接池特定配置
+    #如果是多数据源,则schema作用于哪个数据源的规刚是:
+    #1.若无@Configuration load DataSource，则作用于默认数据源,即spring.datasource.url配置的数据库
+    #2.若@Configuration类只load一个DataSource,则schema作用于该dataSource的数据库
+    #3.若@Configuration只load一个以上的DataSource,则必须有一个DataSource带有@Primary注解,并且schema作用于该primary DataSource
+    #scheme的sql文件中不能带#注释,否则抛出错误
+    schema: classpath:tables_mysql_innodb.sql
+    #schema: classpath:org/quartz/impl/jdbcjobstore/tables_mysql_innodb.sql
+    #initialization-mode: 第一次用always 以后用never 否则表会被删除重建
+    initialization-mode: never
+    continue-on-error: false
+    sql-script-encoding: utf-8
+    separator: ;
+    #默认数据源所用连接池"type: com.alibaba.druid.pool.DruidDataSource"—druid连接池配置
     druid:
+      #默认数据源基本配置信息
+      url: jdbc:mysql://localhost:3306/xiu?useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: success
+      #自定义quartz数据源
+      dev-quartz:
+        url: jdbc:mysql://localhost:3306/quartz?useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: success
       ## 初始化大小，最小，最大
       initial-size: 5
       min-idle: 5
@@ -77,9 +94,29 @@ spring:
         url-pattern: /*
         # 忽略过滤格式
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-    #定时任务配置信息
+  #定时任务配置信息
   quartz:
-   auto-startup: false
+    auto-startup: true
+    job-store-type: jdbc #数据库方式
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO #默认主机名和时间戳生成实例ID,可以是任何字符串，但对于所有调度程序来说，必须是唯一的 对应qrtz_scheduler_state INSTANCE_NAME字段
+            #instanceName: clusteredScheduler #quartzScheduler
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX #持久化配置
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate #我们仅为数据库制作了特定于数据库的代理
+            useProperties: false #以指示JDBCJobStore将JobDataMaps中的所有值都作为字符串，因此可以作为名称 - 值对存储而不是在BLOB列中以其序列化形式存储更多复杂的对象。从长远来看，这是更安全的，因为您避免了将非String类序列化为BLOB的类版本问题。
+            tablePrefix: qrtz_  #数据库表前缀
+            misfireThreshold: 60000 #在被认为“失火”之前，调度程序将“容忍”一个Triggers将其下一个启动时间通过的毫秒数。默认值（如果您在配置中未输入此属性）为60000（60秒）。
+            clusterCheckinInterval: 5000 #设置此实例“检入”*与群集的其他实例的频率（以毫秒为单位）。影响检测失败实例的速度。
+            isClustered: true #打开群集功能
+          threadPool: #连接池
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 3
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
 mybatis-plus:
   # 指定sql映射文件位置
   mapper-locations: classpath:mapper/*.xml

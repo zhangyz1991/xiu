@@ -11,7 +11,7 @@
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <!--定义一个过滤器:这里定义了INFO,也就是控制台不会输出比INFO级别小的日志-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
+            <level>INFO</level>
         </filter>
         <!--encoder 定义控制台输出格式:默认配置为PatternLayoutEncoder-->
         <encoder>
@@ -43,7 +43,7 @@
     </appender>
 
     <!--root是默认的logger 这里设定输出级别是INFO-->
-    <root level="ERROR">
+    <root level="INFO">
         <!--定义了两个appender，日志会往这两个appender里面写-->
         <appender-ref ref="stdout"/>
         <appender-ref ref="file"/>
@@ -52,7 +52,7 @@
     <!--Logger类中有一个Feild:name: 就是构造Logger时的入参:string:name 或是 从入参Class转化得来的String:Class.getName()-->
     <!--对于Logger.name等于或是以 org.springframework.web 开头的Logger,输出级别设置为warn-->
     <!--这个logger没有指定appender,所以它本身不会输出,但它会默认将日志数据向上传递到root节点中定义的那些appender进行输出-->
-    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.springframework" level="WARN"/>
 
     <!--由于这个logger引入了appender:studou,如果没有设置 additivity="false"，就会默认地将日志数据传递到root中的appender:stodou&file,这将会导致一条日志在控制台输出两次的情况-->
     <!--additivity表示要不要向rootLogger配置的appender进行输出-->
